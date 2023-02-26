@@ -29,12 +29,12 @@
 <meta name="twitter:description" content="{{ site.description }}">
 {% endif %}
 
-{% if page.pageImageCard %}
+{% if page.pageImageCard != null %}
 <meta name="twitter:card"  content="summary_large_image">
 <meta name="twitter:image" content="{{ site.url }}{{ page.pageImageCard }}">
 {% else %}
 <meta name="twitter:card"  content="summary">
-<meta name="twitter:image" content="{{ site.pageImageCard }}">
+<!-- <meta name="twitter:image" content="{{ site.pageImageCard }}"> -->
 {% endif %}
 <!-- end of Twitter cards -->
 
