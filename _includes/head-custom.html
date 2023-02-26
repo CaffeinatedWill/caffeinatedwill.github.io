@@ -29,5 +29,5 @@
 {% if page.description %}
 <meta name="twitter:description" content="{{ page.description }}" />
 {% else %}
-<meta name="twitter:description" content="{{ page.content | strip_html | xml_escape | truncate: 30 }}" />
+<meta name="twitter:description" content="{{ site.description }}" />
 {% endif %}
