@@ -39,6 +39,29 @@
 
 <!-- twitter -->
 
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@CaffeinatedSecurity">
+<meta name="twitter:title" content="">
+
+<meta name="twitter:image" content="https://caffeinatedsecurity.com/assets/img/logo.png">
+
+
+  <meta name="twitter:description" content="# Recent Posts
+---
+
+
+
+
+{% for post in site.posts %}
+  {% if post.quickbreach %} {% continue %} {% endif %}
+  
+    {% assign pageImageCard_is_not_empty = post.pageImageCard | is_not_empty %}
+    {% ...">
+
+
+<!-- 
 <meta name="twitter:site" content="https://CaffeinatedWill.com">
 <meta name="twitter:creator" content="@CaffeinatedWill">
 <meta name="twitter:title" content="">
@@ -47,8 +70,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://caffeinatedsecurity.com/assets/img/logo.png">
 
-<!-- end custom head snippets -->
-
+ -->
 
   </head>
   <body>
