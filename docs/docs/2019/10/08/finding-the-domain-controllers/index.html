@@ -33,7 +33,7 @@
 
 <!-- Set page title -->
 
-<title>About</title>
+<title>Finding the Domain Controllers</title>
 
 
 
@@ -42,15 +42,15 @@
 <!-- Twitter cards -->
 <meta name="twitter:site"    content="@CaffeinatedWill">
 <!-- <meta name="twitter:creator" content="@"> -->
-<meta name="twitter:title"   content="About">
+<meta name="twitter:title"   content="Finding the Domain Controllers">
 
 
-<meta name="twitter:description" content="Penetration Testing & Red Teaming Research Blog. Formerly @Quickbreach">
+<meta name="twitter:description" content="Tips to find the DCs and other useful services on the internal network">
 
 
 
 <meta name="twitter:card"  content="summary">
-<!-- <meta name="twitter:image" content="/assets/img/new.svg"> -->
+<meta name="twitter:image" content="/assets/img/new.svg">
 
 <!-- end of Twitter cards -->
 
@@ -155,41 +155,111 @@
 <br />
 <br />
 
-<small></small>
-<h1>About</h1>
+<small>8 October 2019</small>
+<h1>Finding the Domain Controllers</h1>
 
 <!-- <p class="view">by </p> -->
 <p class="view">by <a class="mutedLink" href="https://twitter.com/CaffeinatedWill" target="_blank">@CaffeinatedWill</a></p>
 
-<ul>
-  <li>
-    <p>Cybersecurity &amp; non-profit enthusaist currently building the penetration &amp; red team practices at a large financial institution</p>
-  </li>
-  <li>
-    <p>Used to use the handle of @Quickbreach, have since retired it  g</p>
-  </li>
-  <li>
-    <p>OSCP &amp; CISSP</p>
-  </li>
-  <li>
-    <p>DEFCON 26 Presenter</p>
-  </li>
-</ul>
-
-<p>Tweet @ me or send a DM <a href="https://www.twitter.com/CaffeinatedWill">@CaffeinatedWill</a></p>
-
-<p>- William</p>
+<p>A significant part of an internal penetration test is mapping the network, and one integral part of this endeavor is locating where the domain controllers are. Locating the DCs is useful for attacking AD, but locating them also tends to shine light on where the critical server subnets of the organization are generally. The tips outlined below are not anything new, but hopefully you find useful during your assessments.</p>
 
 <hr />
-<h6 id="large-logo-is-hacking-by-zulfa-mahendra-from-noun-project">Large logo is Hacking by Zulfa Mahendra from <a href="https://thenounproject.com/browse/icons/term/hacking/" target="_blank" title="Hacking Icons">Noun Project</a></h6>
 
-<h6 id="jekyll-theme-is-bonduhu-minimalist">Jekyll theme is <a target="_blank" href="https://www.bodunhu.com/minimalist/">Bonduhu Minimalist</a></h6>
+<h4 id="dhcp-provided-searchdomain">DHCP provided searchdomain</h4>
 
+<p>If you’re using DHCP, then you may have been provided a list of DNS servers and a <code class="language-plaintext highlighter-rouge">search domain</code>. You can usually find this in Linux by reading <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> which is populated by DHCP.</p>
+
+<p><img src="/assets/img/posts/02/searchDomainFromDHCP.PNG" alt="" /></p>
+
+<p>A <code class="language-plaintext highlighter-rouge">search domain</code> provides your machine with a domain name to append at the end of DNS requests. For instance, if DHCP provided you with the search domain of <code class="language-plaintext highlighter-rouge">quickbreach.local</code> and you ran <code class="language-plaintext highlighter-rouge">nslookup WORKSTATION7</code> then your machine will actually attempt to resolve <code class="language-plaintext highlighter-rouge">WORKSTATION7</code>, and then subsequently, <code class="language-plaintext highlighter-rouge">WORKSTATION7.quickbreach.com</code>. It is for this reason that the <code class="language-plaintext highlighter-rouge">search domain</code> is usually that of the FQDN of the domain; Which allows for the DNS resolution of domain connected PCs.</p>
+
+<p>Fortunately Active Directory requires a good number of DNS entries to exist for it to remain functional, and a good way of locating the DCs is to perform DNS lookups on the below entries (<a href="https://blogs.msdn.microsoft.com/servergeeks/2014/07/12/dns-records-that-are-required-for-proper-functionality-of-active-directory/" title="MSDN Article">Full list and explanation here</a>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    _kerberos._tcp.dc._msdcs.&lt;searchdomain&gt;
+    _ldap._tcp.dc._msdcs.&lt;searchdomain&gt;
+    gc._msdcs.&lt;searchdomain&gt;
+    _ldap._tcp.pdc._msdcs.&lt;searchdomain&gt;
+    _ldap._tcp.gc._msdcs.&lt;searchdomain&gt;
+    _kerberos._tcp.dc._msdcs.&lt;searchdomain&gt;
+    _ldap._tcp.dc._msdcs.&lt;searchdomain&gt;
+    &lt;searchdomain&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/posts/02/dnsEntries.PNG" alt="" /></p>
+
+<hr />
+
+<h4 id="dhcp-provided-dns-servers">DHCP provided DNS servers</h4>
+
+<p>If you’re using DHCP and it did <em>not</em> provide you with a <code class="language-plaintext highlighter-rouge">search domain</code>, then hopefully it did provide you with the IP addresses of the DNS servers. These are still useful because often times the DNS server is also a domain controller. You can check this by doing TCP port scans for 88, and if it’s open, that’s probably a domain controller.</p>
+
+<p>If it turns out that the DNS server is not a DC, then hope is not lost. DNS servers usually permit reverse resolution, of which you could do an <code class="language-plaintext highlighter-rouge">nslookup</code> of the IP address of the DNS server itself to then be provided back it’s hostname as well as the FQDN. Then you can see the previous technique for finding the DC with the FQDN as the <code class="language-plaintext highlighter-rouge">search domain</code></p>
+
+<p><img src="/assets/img/posts/02/reverseRes.PNG" alt="" /></p>
+
+<p>Additionally, critical servers are usually grouped together on the same subnet, so don’t be afraid to scan for TCP/88 on the same subnet of the DNS servers.</p>
+
+<hr />
+
+<h4 id="fqdn-in-rdp-certificates">FQDN in RDP Certificates</h4>
+
+<p>Alright, so lets say we weren’t provided a <code class="language-plaintext highlighter-rouge">search domain</code> and reverse DNS resolutions are not doing anything for you. Another way to find the FQDN to then resolve to find the DCs is to inspect the SSL/TLS certificates protecting remote desktop services on the systems that you can see, such as on the DNS server if you were provided one. It’s as simple as doing a quick port scan for TCP/3389 and opening a web browser to <code class="language-plaintext highlighter-rouge">https://IP-ADDRESS-HERE:3389</code> and viewing the certificate when you’re prompted with an untrusted certificate error. You can accomplish the same thing with <code class="language-plaintext highlighter-rouge">curl</code> or <code class="language-plaintext highlighter-rouge">sslscan</code> in Linux too.</p>
+
+<p><img src="/assets/img/posts/02/inspectCert.PNG" alt="" /></p>
+
+<hr />
+
+<h4 id="leveraging-exchange-subnet">Leveraging Exchange Subnet</h4>
+
+<p>Just a brief note: if you’re still struggling to find the DCs and their other servers in general, try looking for an internally hosted Exchange server by querying the DNS server for the MX records and acting on the results by reverse-resolutions or TCP scans for 88.</p>
+
+<p><img src="/assets/img/posts/02/exchange.PNG" alt="" /></p>
+
+<p>Other useful Exchange locating DNS queries include (some of this is guesswork)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_tcp._autodiscover.domain.com
+autodiscover.domain.com
+mail.domain.com
+email.domain.com
+owa.domain.com
+securemail.domain.com
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="llmnrnbt-ns-provided-fqdn">LLMNR/NBT-NS provided FQDN</h4>
+
+<p>New scenario: No search domain was provided, no system on the DNS server subnet is a DC, DNS reverse resolutions are disabled, and RDP is blocked on all PCs so you can’t get the FQDN from the certificate.</p>
+
+<p>One more last-ditch effort is to open up Wireshark and look for LLMNR/NBT-NS requests and responses. While we normally love to poison these requests with <a href="https://github.com/SpiderLabs/Responder">Responder</a>, for now we just want to observe them to learn about the network.</p>
+
+<p><img src="https://pentest.blog/wp-content/uploads/netbios_wireshark.png" alt="" /><br />
+<em>Above image borrowed from</em> <a href="https://pentest.blog/what-is-llmnr-wpad-and-how-to-abuse-them-during-pentest/" title="https://pentest.blog/what-is-llmnr-wpad-and-how-to-abuse-them-during-pentest/">https://pentest.blog/what-is-llmnr-wpad-and-how-to-abuse-them-during-pentest/</a></p>
+
+<hr />
+
+<h4 id="from-a-domain-connected-pc">From a Domain Connected PC</h4>
+
+<p>All of the previous methods were as if you were on the network from a rogue device, such as plugging in a testing laptop during an internal test or through gaining VPN access. It is worth mentioning that if you do happen to have access to a domain joined machine, it is much easier to find the domain controllers. Simply open up the command prompt and run <code class="language-plaintext highlighter-rouge">net group "domain controllers" /domain</code> and perform <code class="language-plaintext highlighter-rouge">nslookup</code>s of the results (<em>remove the dollar sign before performing the nslookup).</em></p>
+
+<p><img src="/assets/img/posts/02/sampleCMD.PNG" alt="" /></p>
+
+<p>There are many other ways to find the DCs from a domain connected PC, but this blog aims to focus on finding them from a more restricted position.</p>
+
+<hr />
+
+<h4 id="prime-subnet-signs">Prime Subnet Signs</h4>
+
+<p>If none of the above helped you pinpoint the location of a DC, then you’re pretty much left with manual hunting unless you can compromise a system connected to the domain. TCP/88 is a tell-tale sign that you’re probably talking to a DC, but rather than scan an entire 10.0.0.0/8 for port 88, try DNS zone transfers or reverse resolutions using things like <a href="https://github.com/mschwager/fierce">Fierce</a>.</p>
+
+<p>Servers are usually clustered together, so looking for any subnets containing systems with DNS names that include “SQL”, “EXCH”, “MX”, and “DC” are prime suspects.</p>
 
 
 <br />
 <a href="/">&lt;-- Back to All Posts</a>
 <br />
+
+  <small>tags: <em></em></small>
 
 
 
