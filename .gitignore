@@ -1,0 +1,9 @@
+_deleted/
+_drafts/
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
+Gemfile.lock
+localServer.sh
+PushToProd.sh
