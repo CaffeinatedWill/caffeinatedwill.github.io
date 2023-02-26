@@ -18,27 +18,13 @@
 
 <!-- twitter -->
 
-<!-- Twitter cards -->
-<meta name="twitter:site"    content="@{{ site.twitter_username }}">
-<!-- <meta name="twitter:creator" content="@{{ page.author }}"> -->
-<meta name="twitter:title"   content="{{ post.title }}">
 
-{% if page.description %}
-<meta name="twitter:description" content="{{ post.description }}">
-{% else %}
-<meta name="twitter:description" content="{{ site.description }}">
-{% endif %}
-
-
-
-{% if page.pageImageCard %}
-<meta name="twitter:card"  content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="https://CaffeinatedWill.com">
+<meta name="twitter:creator" content="@CaffeinatedWill">
+<meta name="twitter:title" content="{{ page.title }}">
+<meta name="twitter:description" content="{{ page.description }}">
 <meta name="twitter:image" content="{{ page.pageImageCard | absolute_url }}">
-{% else %}
-<meta name="twitter:card"  content="summary">
-<meta name="twitter:image" content="{{ site.pageImageCard | absolute_url }}">
-{% endif %}
-<!-- end of Twitter cards -->
 
 <!-- end custom head snippets -->
 
