@@ -3,7 +3,7 @@ layout: post
 tags: []
 title: Finding the Domain Controllers
 date: 2019-10-08T22:30:00.000+00:00
-#pageImageCard: "/assets/img/posts/02/Webp.net-resizeimage.png"
+pageImageCard: "/assets/img/posts/02/Webp.net-resizeimage.png"
 content_img_path: ''
 description: Tips to find the DCs and other useful services on the internal network
 canonical_url: ''

@@ -21,20 +21,22 @@
 <!-- Twitter cards -->
 <meta name="twitter:site"    content="@{{ site.twitter_username }}">
 <!-- <meta name="twitter:creator" content="@{{ page.author }}"> -->
-<meta name="twitter:title"   content="{{ page.title }}">
+<meta name="twitter:title"   content="{{ post.title }}">
 
 {% if page.description %}
-<meta name="twitter:description" content="{{ page.description }}">
+<meta name="twitter:description" content="{{ post.description }}">
 {% else %}
 <meta name="twitter:description" content="{{ site.description }}">
 {% endif %}
 
-{% if page.pageImageCard != null %}
+
+
+{% if page.pageImageCard %}
 <meta name="twitter:card"  content="summary_large_image">
-<meta name="twitter:image" content="{{ site.url }}{{ page.pageImageCard }}">
+<meta name="twitter:image" content="{{ page.pageImageCard }}">
 {% else %}
 <meta name="twitter:card"  content="summary">
-<!-- <meta name="twitter:image" content="{{ site.pageImageCard }}"> -->
+<meta name="twitter:image" content="{{ site.pageImageCard }}">
 {% endif %}
 <!-- end of Twitter cards -->
 
