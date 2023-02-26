@@ -8,7 +8,7 @@ permalink: /about/
 
 - Cybersecurity &amp; non-profit enthusaist currently building the penetration &amp; red team practices at a large financial institution
 
-- Used to use the handle of @Quickbreach, have since retired it  g
+- Used to use the handle of @Quickbreach, have since retired it
 
 - OSCP &amp; CISSP
 
