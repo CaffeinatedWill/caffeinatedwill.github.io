@@ -33,10 +33,10 @@
 
 {% if page.pageImageCard %}
 <meta name="twitter:card"  content="summary_large_image">
-<meta name="twitter:image" content="{{site.url}}{{ page.pageImageCard }}">
+<meta name="twitter:image" content="{{ page.pageImageCard | absolute_url }}">
 {% else %}
 <meta name="twitter:card"  content="summary">
-<meta name="twitter:image" content="{{site.url}}{{ site.pageImageCard }}">
+<meta name="twitter:image" content="{{ site.pageImageCard | absolute_url }}">
 {% endif %}
 <!-- end of Twitter cards -->
 
