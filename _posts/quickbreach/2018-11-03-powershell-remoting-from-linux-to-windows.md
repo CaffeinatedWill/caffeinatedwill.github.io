@@ -3,7 +3,7 @@ layout: post
 title: PowerShell Remoting from Linux to Windows
 subtitle: How to connect to Windows from Linux via PowerShell
 date: 2018-11-03T04:00:00.000+00:00
-pageImageCard: "/images/powershell-remoting-from-linux-to-windows/demo.png"
+pageImageCard: "/assets/img/posts/01/demo.png"
 content_img_path: ''
 description: Solutions for those who face the Linux-to-Windows PowerShell remoting struggle
 canonical_url: ''

@@ -4,7 +4,7 @@ website: https://caffeinatedsecurity.com
 destination: docs/
 url: https://caffeinatedsecurity.com
 logo: /assets/img/new.svg
-pageImageCard: /assets/img/new.svg
+pageImageCard: /assets/img/logo.png
 postAssets: /assets/postAssets/
 email: 
 description: Penetration Testing & Red Teaming Research Blog. Formerly @Quickbreach
