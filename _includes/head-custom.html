@@ -17,22 +17,10 @@
 
 
 <!-- twitter -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@flickr" />
+<meta name="twitter:title" content="Small Island Developing States Photo Submission" />
+<meta name="twitter:description" content="View the album on Flickr." />
+<meta name="twitter:image" content="https://caffeinatedsecurity.com/assets/img/logo.png" />
 
-
-
-{%if page.pageImageCard %}
-    <meta name="twitter:card" content="summary_large_image"><!-- required -->
-    <meta name="twitter:image" content="{{ page.pageImageCard | absolute_url }}">
-{% else %}
-    <meta name="twitter:card" content="summary"><!-- required -->
-    <!-- <meta name="twitter:image" content="{{ site.pageImageCard | absolute_url }}"> -->
-    <meta name="twitter:image" content="https://caffeinatedsecurity.com/assets/img/posts/01/demo.png">
-{% endif %}
-    <meta name="twitter:site" content="@caffeinatedsecurity"><!-- required -->
-    <meta name="twitter:title" content="{{ page.title }}">
-{% if page.description %}
-    <meta name="twitter:description" content="{{ page.description }}">
-{% else %}
-    <meta name="twitter:description" content="{{ page.content | strip_html | xml_escape | truncate: 200 }}">
-{% endif %}
 
