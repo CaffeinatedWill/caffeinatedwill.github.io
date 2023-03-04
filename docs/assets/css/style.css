@@ -388,6 +388,10 @@ hvr -> hover
   border-radius: 5px;
 }
 
+pre.highlight {
+  margin: 0;
+}
+
 body {
   background-color: var(--clr-bg);
   padding: 50px;

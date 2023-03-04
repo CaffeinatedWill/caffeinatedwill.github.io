@@ -93,6 +93,7 @@ You can also use the Invoke-Command function in a similar fashion
 
         Invoke-Command -ComputerName 10.20.30.190 -Authentication Negotiate -Credential $creds -ScriptBlock {Get-HotFix}
 
+<br />
 ![](/assets/img/posts/01/demo.png "Pow")
 
 ### Clean up
