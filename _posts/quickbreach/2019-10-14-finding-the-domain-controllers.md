@@ -36,6 +36,7 @@ Fortunately Active Directory requires a good number of DNS entries to exist for 
         _ldap._tcp.dc._msdcs.<searchdomain>
         <searchdomain>
 
+<br />
 ![](/assets/img/posts/02/dnsEntries.PNG)
 
 ***
