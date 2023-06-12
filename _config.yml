@@ -6,8 +6,8 @@ url: https://caffeinatedsecurity.com
 logo: /assets/img/new.svg
 pageImageCard: /assets/img/logo.png
 postAssets: /assets/postAssets/
-email: 
-description: Penetration Testing & Red Teaming Research Blog. Formerly @Quickbreach
+#email: 
+description: Penetration Testing &amp; Red Teaming Research Blog. Formerly @Quickbreach
 show_downloads: false
 google_analytics: G-TNT13GP2LS
 color-scheme: light

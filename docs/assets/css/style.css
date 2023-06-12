@@ -392,6 +392,10 @@ pre.highlight {
   margin: 0;
 }
 
+.sidebar {
+  overflow: visible !important;
+}
+
 body {
   background-color: var(--clr-bg);
   padding: 50px;
