@@ -1,7 +1,7 @@
 title: Caffeinated Security
 website: https://caffeinatedsecurity.com
 #baseurl: "/blog"
-destination: _site/
+destination: docs/
 url: https://caffeinatedsecurity.com
 logo: /assets/img/new.svg
 pageImageCard: /assets/img/logo.png

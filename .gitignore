@@ -1,4 +1,3 @@
-_site/
 _deleted/
 _drafts/
 .sass-cache
@@ -8,4 +7,3 @@ vendor
 Gemfile.lock
 localServer.sh
 PushToProd.sh
-docs/**/*
