@@ -1,7 +1,7 @@
 title: Caffeinated Security
 website: https://caffeinatedsecurity.com
 #baseurl: "/blog"
-destination: docs/
+destination: _site/
 url: https://caffeinatedsecurity.com
 logo: /assets/img/new.svg
 pageImageCard: /assets/img/logo.png
@@ -32,6 +32,7 @@ plugins:
   - jemoji
   - jekyll-archives
   - jekyll-redirect-from
+  - jekyll-seo-tag
 
 whitelist:
   - jekyll-redirect-from
