@@ -8,4 +8,4 @@ vendor
 Gemfile.lock
 localServer.sh
 PushToProd.sh
-docs/**
+docs/**/*
